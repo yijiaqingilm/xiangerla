@@ -1,0 +1,23 @@
+{
+  "port": 3005,
+  "debug": true,
+  "secret": "88888888",
+  "hashsalt":"asdfa;slkg",
+  "admin": "88888888",
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "auth":"123456"
+  },
+  "dbApp": {
+    "host": "127.0.0.1",
+    "user": "root",
+    "password": "yijiaqing520",
+    "port": 3306,
+    "database": "hotel",
+    "connectionLimit": 8,
+    "waitForConnections": true,
+    "queueLimit": 0,
+    "connectTimeout": 10000
+  }
+}
