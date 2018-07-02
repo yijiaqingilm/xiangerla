@@ -18,6 +18,6 @@ $ npm start
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
 
 ## Backpack
-
+serverMiddleware
 We use [backpack](https://github.com/palmerhq/backpack) to watch and build the application, so you can use the latest ES6 features (module syntax, async/await, etc.).
-sequelize-auto -o "./models" -d hotel -h localhost -u root -p 3306 -x 123456 -e mysql
+sequelize-auto -o "./models" -d xiangerla -h localhost -u root -p 3306 -x yijiaqing520 -e mysql

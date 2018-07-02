@@ -36,8 +36,8 @@ module.exports = {
     /*
     ** Run ESLINT on save
     */
-    extend (config, ctx) {
-      if (ctx.isClient) {
+    extend (config, {isClient, isDev, isServer}) {
+      if (isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -46,9 +46,9 @@ module.exports = {
         })
       }
       Object.assign(config.resolve.alias, {
-        'lib': resolve('lib'),
+        'lib': path.resolve(__dirname, 'lib'),
         'api': resolve('api'),
-        'components': resolve('components')
+        'components': resolve('components'),
       })
     }
   }

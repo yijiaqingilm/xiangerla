@@ -3,17 +3,17 @@ import bodyParser from 'body-parser'
 import { Nuxt, Builder } from 'nuxt'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
-import api from './api'
+import router from './router'
 import redisClient from './middleware/redisConnect'
 
 // 重写date tojson方法
 Date.prototype.toJSON = function () {
   return this.getTime()
 }
-const secret = 'secret for hotel service'
+const secret = 'secret for erla service'
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3002
 app.use(bodyParser.json())
 app.set('port', port)
 // 测试配置 redis
@@ -27,7 +27,7 @@ app.use(session({
   resave: false,
 }))
 // Import API Routes
-app.use('/api', api)
+app.use('/', router)
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')

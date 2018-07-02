@@ -1,5 +1,4 @@
 import redis from 'redis'
-import roomService from '../service/roomService'
 import exeTask from '../task/task'
 
 let redisClient = redis.createClient({

@@ -1,23 +1,5 @@
 <template>
     <section class="container">
-        <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo"/>
-        <h1 class="title">
-            USERS
-            {{user.name}}
-        </h1>
-        <ul class="users">
-            <li v-for="(user, index) in users" :key="index" class="user">
-                <nuxt-link :to="{ name: 'id', params: { id: index }}">
-                    {{ user.name }}
-                </nuxt-link>
-            </li>
-        </ul>
-        <input type="text">
-        <nuxt-link :to="{ name: 'test'}">
-            我的天 ?
-        </nuxt-link>
-        <div @click='submitUser'>提交user对象</div>
-        <div @click='getUserInfo'>获取用户信息</div>
         <el-button type="danger">危险按钮</el-button>
         <nuxt-link :to="{ name: 'login'}">
             login
@@ -26,13 +8,10 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
+  import { globalConst as native } from 'lib/const'
+  import { Layout } from 'lib/base'
 
   export default {
-    async asyncData () {
-      let {data} = await axios.get('/api/users')
-      return {users: data}
-    },
     data () {
       return {
         user: {
@@ -47,18 +26,13 @@
         title: 'Users',
       }
     },
-    methods: {
-      submitUser () {
-        console.log('push', this.user)
-        axios.post('/api/users/add', this.user)
-      },
-      getUserInfo () {
-        axios.post('api/users/info', {userId: 1}).then(({data}) => {
-          console.log('data', data)
-          this.user = data.data
-        })
-      }
-    }
+    created () {
+      console.log('ces', new Layout())
+      this.$store.dispatch({
+        type: native.doSysUserList
+      })
+    },
+    methods: {}
   }
 </script>
 

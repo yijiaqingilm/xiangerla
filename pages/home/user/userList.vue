@@ -4,16 +4,6 @@
             <el-form-item label="用户名">
                 <el-input v-model="formInline.name" placeholder="用户名"></el-input>
             </el-form-item>
-            <el-form-item label="角色">
-                <el-select v-model="formInline.roleId" clearable placeholder="角色">
-                    <el-option
-                            v-for="item in roleList"
-                            :key="item.rolesId"
-                            :label="item.name"
-                            :value="item.rolesId">
-                    </el-option>
-                </el-select>
-            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">查询</el-button>
                 <el-button type="primary" @click="userAdd">新增用户</el-button>
@@ -40,16 +30,17 @@
                     width="120">
             </el-table-column>
             <el-table-column
-                    prop="nickName"
-                    label="昵称"
+                    prop="mobile"
+                    label="手机号"
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
-                    prop="roleName"
-                    label="角色名">
+                    show-overflow-tooltip
+                    prop="cardId"
+                    label="身份证号">
             </el-table-column>
             <el-table-column
-                    label="操作" width="250">
+                    label="操作" width="400">
                 <template slot-scope="scope">
                     <el-button
                             size="mini"
@@ -58,20 +49,21 @@
                     <el-button
                             size="mini"
                             type="danger"
-                            @click="handleResetPwd(scope.$index, scope.row)">重置密码
+                            @click="handleAddOrder(scope.$index, scope.row)">下订单
                     </el-button>
                     <el-button
                             size="mini"
                             type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除
+                            @click="handleFinishOrder(scope.$index, scope.row)">已完成订单
+                    </el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="handleGoodsDetail(scope.$index, scope.row)">查看培训项目
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <!--<div style="margin-top: 20px">
-            <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
-            <el-button @click="toggleSelection()">取消选择</el-button>
-        </div>-->
         <el-pagination class="pagination"
                        layout="prev, pager, next"
                        @current-change="currentPage"
@@ -84,31 +76,15 @@
 </template>
 
 <script>
-  import { globalConst as native } from 'lib/const'
+  import { globalConst as native, pageSize, orderStatus, modalTitle } from 'lib/const'
   import { mapState } from 'vuex'
 
   export default {
     name: 'userList',
-    async asyncData ({error, store}) {
-      await store.dispatch({
-        type: native.doSysRoleList,
-        page: -1
-      }).catch((err, code) => {
-        error({message: err, statusCode: code})
-      })
-      let page = 1
-      let pageSize = 2
-      await store.dispatch({
-        type: native.doSysUserList,
-        page,
-        size: pageSize
-      }).catch((err) => {
-        error({message: err})
-      })
-      return {page, pageSize}
-    },
     data () {
       return {
+        page: 1,
+        pageSize,
         formInline: {
           name: '',
           roleId: ''
@@ -116,40 +92,43 @@
         multipleSelection: []
       }
     },
-    created () {},
+    created () {
+      this.loadData()
+    },
     methods: {
+      loadData () {
+        this.$store.dispatch({
+          type: native.doUserList,
+          page: this.page,
+        })
+      },
       prevPage () {
         this.page -= 1
-        this.$store.dispatch({
-          type: native.doSysUserList,
-          page: this.page,
-          size: this.pageSize
-        })
+        this.loadData()
       },
       nextPage () {
         this.page += 1
-        this.$store.dispatch({
-          type: native.doSysUserList,
-          page: this.page,
-          size: this.pageSize
-        })
+        this.loadData()
       },
       currentPage (page) {
         this.page = page
-        this.$store.dispatch({
-          type: native.doSysUserList,
-          page: this.page,
-          size: this.pageSize
-        })
+        this.loadData()
       },
       onSubmit () {
         this.page = 1
-        this.$store.dispatch({
-          type: native.doSysUserSeach,
-          page: this.page,
-          size: this.pageSize,
-          ...this.formInline
-        })
+        this.loadData()
+      },
+      handleAddOrder (index, row) {
+        console.log('row', row)
+        let {userId, name} = row
+        this.$router.push({path: '/home/order/orderAdd', query: {userId, name}})
+
+      },
+      handleFinishOrder (index, row) {
+
+      },
+      handleGoodsDetail (index, row) {
+
       },
       toggleSelection (rows) {
         if (rows) {
@@ -167,17 +146,6 @@
         console.log(index, row)
         this.$router.push(`/home/user/${row.userId}`)
       },
-      handleDelete (index, row) {
-        console.log(index, row)
-      },
-      handleResetPwd (index, row) {
-        this.$confirm('重置密码，是否继续', '提示').then(() => {
-          this.$message({
-            type: 'success',
-            message: '重置密码成功!'
-          })
-        })
-      },
       userAdd () {
         this.$router.push('/home/user/userAdd')
       }
@@ -185,8 +153,7 @@
     computed: {
       ...mapState({
         userList: ({users}) => users.userList.data,
-        userTotal: ({users}) => users.userList.total,
-        roleList: ({users}) => users.roleListAll
+        userTotal: ({users}) => users.userList.total
       })
     }
   }

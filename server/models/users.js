@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    type: {
+    userType: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       defaultValue: '0'
@@ -25,20 +25,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    defaultAddressId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
     scope: {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
     balance: {
       type: DataTypes.FLOAT,
-      allowNull: true
-    },
-    createTime: {
-      type: DataTypes.DATE,
       allowNull: true
     },
     source: {
@@ -49,15 +41,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(50),
       allowNull: true
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    vipCardId: {
+    nickName: {
       type: DataTypes.STRING(255),
       allowNull: true
     }

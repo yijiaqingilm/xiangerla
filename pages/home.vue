@@ -75,57 +75,89 @@
 
   export default {
     name: 'home',
+    async asyncData ({store, error}) {
+      /* await store.dispatch({
+        type: native.doSysRuleList
+      }).catch((err) => {
+        error({message: err})
+      })*/
+      let menuList = [
+        {
+          'rulesId': 5,
+          'name': '用户管理',
+          'url': 'user/userList',
+          'parentNode': 6,
+          'createdAt': null,
+          'updatedAt': null,
+          'apiUrl': 'user/list',
+          'weight': null
+        },
+        {
+          'rulesId': 6,
+          'name': '权限管理',
+          'url': '-1',
+          'parentNode': -1,
+          'createdAt': null,
+          'updatedAt': null,
+          'apiUrl': '-1',
+          'weight': null
+        },
+        {
+          'rulesId': 7,
+          'name': '项目分类管理',
+          'url': 'shop/catalogs/catalogsList',
+          'parentNode': 6,
+          'createdAt': null,
+          'updatedAt': null,
+          'apiUrl': 'shop/catalogs/list',
+          'weight': null
+        },
+        {
+          'rulesId': 8,
+          'name': '项目管理',
+          'url': 'shop/goods/goodsList',
+          'parentNode': 6,
+          'createdAt': null,
+          'updatedAt': null,
+          'apiUrl': 'shop/goods/list',
+          'weight': null
+        },
+        {
+          'rulesId': 9,
+          'name': '产品组合管理',
+          'url': 'shop/combo/comboList',
+          'parentNode': 6,
+          'createdAt': null,
+          'updatedAt': null,
+          'apiUrl': 'shop/combo/list',
+          'weight': null
+        },
+        {
+          'rulesId': 10,
+          'name': '订单管理',
+          'url': 'order/orderList',
+          'parentNode': 6,
+          'createdAt': null,
+          'updatedAt': null,
+          'apiUrl': 'order/list',
+          'weight': null
+        }]
+      let menuListByNode = getJsonTree(menuList, -1)
+      // let menuListByNode = getJsonTree(this.menuList, -1)
+      return {menuListByNode}
+    },
     data () {
       return {
         activeIndex: '1',
         activeIndex2: '1',
-        menuListByNode: [],
       }
     },
     async created () {
-      await this.$store.dispatch({
-        type: native.doSysRuleList
-      })
-      this.menuListByNode = getJsonTree(this.menuList, -1)
-      // 测试jwt
-      /* let u = jwt.decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIzNywib3BlbklkIjoid2lsbGlhbXN1aW1hYyIsInNob3BJZCI6MCwic2t1SWQiOjAsImltYkNvZGUiOiIwMDAwMjI1MTg4OSIsImlhdCI6MTUyNjAwMzI3OSwiZXhwIjoxNTI2MDg5Njc5fQ.OLR8XPnLNYbaf2iMW-vdCNiXXix_jd1UrMRzq2SDw60')
-      let {exp, iat, ...rest} = u
-      console.log(JSON.stringify(rest))
-
-      let t = jwt.sign(rest, 'fc-GYq@(tzl_59)', {expiresIn: '1 days'})
-      console.log(t)*/
-
-      // 测试价格区间
-      let rules = [
-        {min: 100, max: 200, value: 10},
-        {min: 201, max: 300, value: 20},
-        {min: 301, max: 400, value: 50},
-        {min: 401, max: 500, value: 100},
-        {min: 501, max: 1000, value: 300},
-      ]
-      let total = 300
-      let findRule = function (total) {
-        let rule = null
-        let low = 0
-        let high = rules.length - 1
-        let mind
-        while (low <= high) {
-          mind = Math.floor((low + high) / 2)
-          rule = rules[mind]
-          let {min, max} = rule
-          if (total < min) {
-            high = mind - 1
-          } else if (total > max) {
-            low = mind + 1
-          } else if (total <= max && total >= min) {
-            console.log('跳出循环')
-            rule = rules[mind]
-            break
-          }
-        }
-        return rule
-      }
-      console.log('findRule', findRule(total))
+      console.log('测试')
+      await setTimeout(() => {
+        console.log('执行我么')
+      }, 1000)
+      console.log('success')
     },
     methods: {
       handleSelect (key, keyPath) {

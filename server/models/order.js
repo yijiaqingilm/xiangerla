@@ -1,6 +1,6 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('order', {
     orderId: {
       type: DataTypes.INTEGER(11),
@@ -8,7 +8,12 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    uId: {
+    status: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+      defaultValue: '0'
+    },
+    userId: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
@@ -16,88 +21,48 @@ module.exports = function(sequelize, DataTypes) {
         key: 'userId'
       }
     },
-    status: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
-    total: {
-      type: DataTypes.FLOAT,
-      allowNull: true
-    },
-    couponId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
-    sktime: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    ottime: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    payType: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
-    mobile: {
+    userName: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    contact: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    addressId: {
+    referrer: {
       type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'address',
-        key: 'addressId'
-      }
-    },
-    orderNo: {
-      type: DataTypes.STRING(255),
       allowNull: true
     },
     remark: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    source: {
-      type: DataTypes.INTEGER(11),
+    total: {
+      type: DataTypes.FLOAT,
       allowNull: true
     },
-    payStatus: {
-      type: DataTypes.INTEGER(11),
+    discount: {
+      type: DataTypes.FLOAT,
       allowNull: true
     },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: true
     },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    checkInTime: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    checkOutTime: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    deposit: {
+    priceTotal: {
       type: DataTypes.FLOAT,
       allowNull: true
     },
-    days: {
+    payType: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    payee: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    source: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
-      defaultValue: '1'
+      defaultValue: '0'
     }
   }, {
     tableName: 'order'
-  });
-};
+  })
+}
